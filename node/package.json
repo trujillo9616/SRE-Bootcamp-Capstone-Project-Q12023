@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha test --recursive --require babel-core/register --require babel-polyfill",
     "start": "NODE_ENV=production babel-node index.js",
-    "dev": "nodemon --exec babel-node ./index.js"
+    "dev": "nodemon --exec babel-node ./index.js",
+    "prepare": "cd .. && husky install node/.husky"
   },
   "repository": {
     "type": "git",
@@ -33,9 +34,12 @@
     "sinon": "^11.1.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
+    "husky": "^8.0.3",
     "mocha": "^4.0.1",
     "nodemon": "^1.17.3",
     "supertest": "^3.0.0"
