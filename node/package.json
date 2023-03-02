@@ -1,47 +1,58 @@
 {
-  "name": "sre-bootcamp-api-js",
-  "version": "1.0.0",
-  "description": "API for SRE Bootcamp",
-  "main": "server.js",
-  "scripts": {
-    "test": "mocha test --recursive --require babel-core/register --require babel-polyfill",
-    "start": "NODE_ENV=production babel-node index.js",
-    "dev": "nodemon --exec babel-node ./index.js",
-    "prepare": "cd .. && husky install node/.husky"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wizeline/wize-devops.git"
-  },
-  "author": "Clemente Estrada",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wizeline/wize-devops/issues"
-  },
-  "homepage": "https://github.com/wizeline/wize-devops#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "config": "^1.31.0",
-    "crypto": "^1.0.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.0",
-    "npm": ">=6.14.6",
-    "restify": "^7.1.1",
-    "sinon": "^11.1.2"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "chai": "^4.1.2",
-    "husky": "^8.0.3",
-    "mocha": "^4.0.1",
-    "nodemon": "^1.17.3",
-    "supertest": "^3.0.0"
-  }
+	"name": "sre-bootcamp-api-js",
+	"version": "1.0.0",
+	"description": "API for SRE Bootcamp",
+	"main": "server.js",
+	"scripts": {
+		"test": "mocha test --recursive --require babel-core/register --require babel-polyfill",
+		"start": "NODE_ENV=production babel-node index.js",
+		"dev": "nodemon --exec babel-node ./index.js",
+		"lint": "eslint . --ext .ts",
+		"prepare": "cd .. && husky install node/.husky"
+	},
+	"lint-staged": {
+		"*.{js,ts}": [
+			"npx prettier --write",
+			"npx eslint --fix"
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wizeline/wize-devops.git"
+	},
+	"author": "Clemente Estrada",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/wizeline/wize-devops/issues"
+	},
+	"homepage": "https://github.com/wizeline/wize-devops#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"config": "^1.31.0",
+		"crypto": "^1.0.1",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"mysql": "^2.18.1",
+		"mysql2": "^2.3.0",
+		"npm": ">=6.14.6",
+		"restify": "^7.1.1",
+		"sinon": "^11.1.2"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.4.4",
+		"@commitlint/config-conventional": "^17.4.4",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"babel-cli": "^6.26.0",
+		"babel-preset-env": "^1.7.0",
+		"chai": "^4.1.2",
+		"eslint": "^8.35.0",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.1.2",
+		"mocha": "^4.0.1",
+		"nodemon": "^1.17.3",
+		"supertest": "^3.0.0"
+	}
 }
