@@ -8,7 +8,9 @@ export default {
 			},
 		});
 		if (!user) {
-			throw new Error('User not found');
+			const error = new Error('User not found');
+			error.name = 'UserNotFound';
+			throw error;
 		}
 		return user;
 	},
