@@ -1,14 +1,14 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { signToken, verifyToken } from '../../services/tokenService';
+import tokenService from '../../services/tokenService';
 
 describe('tokenService', function () {
 	describe('signToken', function () {
 		it('should return a token', function () {
 			const data = { role: 'testRole' };
 			const expiration = '1h';
-			const token = signToken(data, expiration);
+			const token = tokenService.signToken(data, expiration);
 			expect(token).to.be.a('string');
 		});
 	});
@@ -17,15 +17,15 @@ describe('tokenService', function () {
 		it('should return a payload when valid', function () {
 			const data = { role: 'testRole' };
 			const expiration = '1h';
-			const token = signToken(data, expiration);
-			const payload = verifyToken(token);
+			const token = tokenService.signToken(data, expiration);
+			const payload = tokenService.verifyToken(token);
 			expect(payload).to.be.a('object');
 			expect(payload.role).to.equal('testRole');
 		});
 
 		it('should throw an error when invalid', function () {
 			try {
-				verifyToken('invalidToken');
+				tokenService.verifyToken('invalidToken');
 			} catch (err) {
 				expect(err.name).to.equal('JsonWebTokenError');
 			}
@@ -34,10 +34,10 @@ describe('tokenService', function () {
 		it('should throw an error when expired', function () {
 			const data = { role: 'testRole' };
 			const expiration = '1ms';
-			const token = signToken(data, expiration);
+			const token = tokenService.signToken(data, expiration);
 			setTimeout(() => {
 				try {
-					verifyToken(token);
+					tokenService.verifyToken(token);
 				} catch (err) {
 					expect(err.name).to.equal('TokenExpiredError');
 				}
