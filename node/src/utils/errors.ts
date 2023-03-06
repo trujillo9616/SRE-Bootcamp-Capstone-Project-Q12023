@@ -10,4 +10,10 @@ const passwordError = () => {
 	return error;
 };
 
-export { usernameError, passwordError };
+const customError = (message: string, name: string) => {
+	const error = new Error(message);
+	error.name = name;
+	return error;
+};
+
+export { usernameError, passwordError, customError };
