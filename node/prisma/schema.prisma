@@ -8,8 +8,8 @@ datasource db {
 }
 
 model users {
-  username String @id @unique @db.VarChar(10)
-  password String @db.VarChar(255)
-  salt     String @db.VarChar(50)
-  role     String @db.VarChar(10)
+  username String @id @unique @db.VarChar(100)
+  password String? @db.VarChar(500)
+  salt     String? @db.VarChar(300)
+  role     String? @db.VarChar(100)
 }

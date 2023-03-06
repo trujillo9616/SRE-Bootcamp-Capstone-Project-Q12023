@@ -1,9 +1,9 @@
 -- CreateTable
 CREATE TABLE `users` (
-    `username` VARCHAR(10) NOT NULL,
-    `password` VARCHAR(255) NOT NULL,
-    `salt` VARCHAR(50) NOT NULL,
-    `role` VARCHAR(10) NOT NULL,
+    `username` VARCHAR(100) NOT NULL,
+    `password` VARCHAR(500) NOT NULL,
+    `salt` VARCHAR(300) NOT NULL,
+    `role` VARCHAR(100) NOT NULL,
 
     UNIQUE INDEX `users_username_key`(`username`),
     PRIMARY KEY (`username`)
