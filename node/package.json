@@ -7,6 +7,7 @@
 		"test": "nyc mocha --require ts-node/register 'src/tests/**/*.{test,spec}.ts'",
 		"start": "NODE_ENV=production node dist/index.js",
 		"dev": "nodemon dist/index.js",
+		"build": "tsc",
 		"watch": "tsc -w",
 		"lint": "eslint . --ext .ts",
 		"prepare": "cd .. && husky install node/.husky"
