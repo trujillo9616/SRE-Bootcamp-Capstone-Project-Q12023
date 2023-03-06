@@ -19,7 +19,7 @@ describe('userService', function () {
 		try {
 			await userService.findUser('notAUser');
 		} catch (err) {
-			expect(err.message).to.equal('User not found');
+			expect(err.message).to.equal('Invalid username or password');
 		}
 	});
 });

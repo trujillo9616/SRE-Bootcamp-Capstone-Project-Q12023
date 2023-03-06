@@ -1,4 +1,5 @@
 import { prisma } from '../utils/prisma';
+import { usernameError } from '../utils/errors';
 
 export default {
 	findUser: async (username: string) => {
@@ -8,9 +9,7 @@ export default {
 			},
 		});
 		if (!user) {
-			const error = new Error('User not found');
-			error.name = 'UserNotFound';
-			throw error;
+			throw usernameError();
 		}
 		return user;
 	},

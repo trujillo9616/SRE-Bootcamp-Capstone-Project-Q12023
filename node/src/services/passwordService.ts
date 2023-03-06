@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { passwordError } from '../utils/errors';
 
 const passwordService = {
 	generateSalt: () => {
@@ -14,9 +15,7 @@ const passwordService = {
 		if (hashedPassword === passwordService.hashPassword(password, salt)) {
 			return true;
 		}
-		const error = new Error('Invalid password, please check your credentials');
-		error.name = 'InvalidPasswordError';
-		throw error;
+		throw passwordError();
 	},
 };
 
