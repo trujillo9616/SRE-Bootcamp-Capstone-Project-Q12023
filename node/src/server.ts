@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 
-import { healthRouter, loginRouter } from './routes';
+import { healthRouter, loginRouter, cidrToMask, maskToCidr } from './routes';
 import middleware from './utils/middleware';
 
 const app = express();
@@ -14,6 +14,8 @@ app.use(
 
 app.use('/api/_health', healthRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/cidrToMask', cidrToMask);
+app.use('/api/maskToCidr', maskToCidr);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
