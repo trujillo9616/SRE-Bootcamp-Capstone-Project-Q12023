@@ -10,6 +10,8 @@
 		"build": "tsc",
 		"watch": "tsc -w",
 		"lint": "eslint . --ext .ts",
+		"docker:build": "docker build -t truji96/academy-sre-bootcamp-adrian-trujillo:latest .",
+		"docker:push": "docker push truji96/academy-sre-bootcamp-adrian-trujillo:latest",
 		"prepare": "cd .. && husky install node/.husky"
 	},
 	"lint-staged": {
