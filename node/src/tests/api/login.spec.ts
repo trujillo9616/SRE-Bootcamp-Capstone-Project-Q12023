@@ -11,9 +11,9 @@ import { usernameError, passwordError } from '../../utils/errors';
 
 const api = supertest(app);
 
-let findUser: sinon.SinonSpy<any, unknown>;
-let signToken: sinon.SinonSpy<any, unknown>;
-let verifyPassword: sinon.SinonSpy<any, unknown>;
+let findUser: sinon.SinonSpy;
+let signToken: sinon.SinonSpy;
+let verifyPassword: sinon.SinonSpy;
 
 describe('POST /api/login', function () {
 	before(function () {

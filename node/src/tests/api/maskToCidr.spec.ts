@@ -8,7 +8,7 @@ import app from '../../server';
 
 const api = supertest(app);
 
-let validateToken: sinon.SinonSpy<any, unknown>;
+let validateToken: sinon.SinonSpy;
 
 describe('GET /api/maskToCidr', function () {
 	before(function () {
