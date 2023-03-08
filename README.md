@@ -140,27 +140,64 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Prior to installing and downloading the files you will need to have Node.js installed. You can find the installation instructions [here](https://nodejs.org/en/). Or run the following command to install Node if using Mac OS.
+Prior to installing and downloading the files you will need to have Node.js installed. You can find the installation instructions [here](https://nodejs.org/en/). Or run the following command to install Node if using Mac OS. I recommend using a node version manager such as [nvm](https://github.com/nvm-sh/nvm) to manage your node versions easily.
 
 ```sh
 brew install node
 ```
 
-I recommend using a node version manager such as [nvm](https://github.com/nvm-sh/nvm) to manage your node versions easily.
+Not a hard prerequisite, but having docker will get things up and running faster. You can find the installation instructions for Docker Desktop [here](https://docs.docker.com/desktop/). Or run the following command to install Docker if using Mac OS.
 
-### Installation
+```sh
+brew install --cask docker
+```
 
-1. Clone the repo
+If you want a more lightweight version of Docker, you can install Docker Engine. You can find the installation instructions [here](https://docs.docker.com/engine/install/).
+
+## Installation and Setup
+
+### First Steps
+
+Clone the repo
+
+```sh
+git clone https://github.com/trujillo9616/SRE-Bootcamp-Capstone-Project-Q12023.git
+```
+
+Move into the project directory
+
+```sh
+cd node
+```
+
+### Using Docker
+
+1. Run the docker-compose file
    ```sh
-   git clone https://github.com/trujillo9616/SRE-Bootcamp-Capstone-Project-Q12023.git
+   yarn docker:compose
    ```
-2. Run the docker-compose file
+
+### Without Docker
+
+1. Install dependencies
    ```sh
-   docker compose up
+   yarn install
    ```
-3. Test the API using Postman or Swagger
-   - Visit http://localhost:8000/api/docs to view the Swagger documentation
-   - Or check out the Postman collection [here](https://elements.getpostman.com/redirect?entityId=19969340-240a185d-0cf1-460a-8cfb-ba97d9ba06ac&entityType=collection)
+2. Build the project
+   ```sh
+   yarn build
+   ```
+3. Start the server
+   ```sh
+   yarn start
+   ```
+
+### Final Step
+
+Test the API using Postman or Swagger
+
+- Visit http://localhost:8000/api/docs to view the Swagger documentation
+- Or check out the Postman collection [here](https://elements.getpostman.com/redirect?entityId=19969340-240a185d-0cf1-460a-8cfb-ba97d9ba06ac&entityType=collection)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
