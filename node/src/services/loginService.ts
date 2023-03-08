@@ -10,9 +10,13 @@ export default {
 		expiration?: string
 	) => {
 		const user = await userService.findUser(username);
-		passwordService.verifyPassword(password, user.salt, user.password);
+		passwordService.verifyPassword(
+			password,
+			user.salt as string,
+			user.password as string
+		);
 		return tokenService.signToken(
-			{ role: user.role },
+			{ role: user.role as string },
 			expiration || config.jwtExpiration
 		);
 	},
