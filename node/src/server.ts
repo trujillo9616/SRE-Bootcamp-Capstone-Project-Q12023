@@ -3,7 +3,9 @@ import morgan from 'morgan';
 import hpp from 'hpp';
 import helmet from 'helmet';
 
+import swaggerDocs from './swagger';
 import apiRouter from './routes';
+import config from './config';
 import middleware from './utils/middleware';
 
 const app = express();
@@ -19,6 +21,7 @@ app.use(
 );
 
 app.use('/api', apiRouter);
+swaggerDocs(app, config.port);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
