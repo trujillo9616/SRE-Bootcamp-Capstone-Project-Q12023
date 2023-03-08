@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd node && yarn test && yarn docker:build && yarn docker:push
+cd node && yarn test
