@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 5
+    MemorySize: 128
+
+Resources:
+  # Lambda Functions
+  RootFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: health.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/healthFunction
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - health.ts
+
+  HealthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: health.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/healthFunction
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /_health
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - health.ts
+
+  LoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: health.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/healthFunction
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref UsersTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - health.ts
+
+  CidrToMaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: cidrToMask.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/cidrToMaskFunction
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /cidr-to-mask
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - cidrToMask.ts
+
+  MaskToCidrFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: maskToCidr.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/maskToCidrFunction
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /mask-to-cidr
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - maskToCidr.ts
+
+  RegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: register.handler
+      Runtime: nodejs16.x
+      CodeUri: src/lambdas/registerFunction
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref UsersTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: POST
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - register.ts
+
+  UnknownFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/lambdas/unknownFunction
+      Handler: unknown.handler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: 'es2020'
+        EntryPoints:
+          - unknown.ts
+
+  # DynamoDB Table
+  UsersTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      TableName: users
+
+Outputs:
+  MyApi:
+    Description: 'API Gateway endpoint URL'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
