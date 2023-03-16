@@ -5,6 +5,11 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"clear": "del .aws-sam",
+		"build": "sam build --beta-features --use-container",
+		"deploy:first": "sam deploy --guided",
+		"sync": "sam sync --stack-name sre-bootcamp-api-aws --watch",
+		"ci": "npm run clear && npm run build && sam deploy",
 		"prepare": "husky install"
 	},
 	"lint-staged": {
@@ -34,5 +39,8 @@
 		"husky": "^8.0.3",
 		"lint-staged": "^13.2.0",
 		"prettier": "^2.8.4"
+	},
+	"dependencies": {
+		"del-cli": "^5.0.0"
 	}
 }
