@@ -54,3 +54,5 @@ __pycache__/
 provision/.*/*
 
 provision/terraform/destroy-candidate.sh
+
+.aws-sam
