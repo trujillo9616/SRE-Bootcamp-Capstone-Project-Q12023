@@ -1,0 +1,42 @@
+{
+	"name": "sre-bootcamp-api-js",
+	"version": "2.0.0",
+	"description": "API for SRE Bootcamp",
+	"main": "server.js",
+	"scripts": {
+		"test": "nyc mocha --require ts-node/register 'src/tests/**/*.{test,spec}.ts'",
+		"lint": "eslint . --ext .ts",
+		"prepare": "husky install"
+	},
+	"lint-staged": {
+		"*.{js,ts}": [
+			"npx prettier --write",
+			"npx eslint --fix"
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/trujillo9616/SRE-Bootcamp-Capstone-Project-Q12023.git"
+	},
+	"author": "Adrian Trujillo",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/trujillo9616/SRE-Bootcamp-Capstone-Project-Q12023/issues"
+	},
+	"homepage": "https://github.com/trujillo9616/SRE-Bootcamp-Capstone-Project-Q12023#readme",
+	"dependencies": {
+		"npm": ">=6.14.6"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^17.4.4",
+		"@commitlint/config-conventional": "^17.4.4",
+		"@typescript-eslint/eslint-plugin": "^5.56.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"eslint": "^8.35.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.1.2",
+		"prettier": "^2.8.4"
+	}
+}
