@@ -26,7 +26,7 @@ jobs:
       - name: Install Dependencies
         run: |
           echo "Installing dependencies..."
-          npm install
+          npm run install:all
       - name: Run Tests
         run: |
           echo "Running tests..."
