@@ -65,13 +65,12 @@ jobs:
           echo "Setting terraform workspace..."
           prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref == 'refs/head/prod' }}"
           dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref == 'refs/head/dev' }}"
-          echo "Setting terraform workspace..."
           if [ "$prod" = true ]; then
-            echo "::set-output name=environment::prod"
+            echo "{environment=prod}" >> $TF_WORKSPACE
           elif [ "$dev" == true ]; then
-            echo "::set-output name=environment::dev"
+            echo "{environment=dev}" >> $TF_WORKSPACE
           else
-            echo "::set-output name=environment::stage"
+            echo "{environment=stage}" >> $TF_WORKSPACE
           fi
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -87,13 +86,9 @@ jobs:
         run: |
           echo "Terraform init..."
           npm run terraform:main-infra:init
-        env:
-          TF_WORKSPACE: ${{ steps.set-workspace.outputs.environment }}
       - name: Terraform Plan
         id: plan
         run: |
           echo "Terraform plan..."
           npm run terraform:main-infra:plan
         continue-on-error: true
-        env:
-          TF_WORKSPACE: ${{ steps.set-workspace.outputs.environment }}
