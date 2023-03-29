@@ -37,7 +37,7 @@ jobs:
           npm run test
 
   build:
-    name: Build
+    name: Deployment
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -59,41 +59,41 @@ jobs:
         run: |
           echo "Building..."
           npm run build:all
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifacts
-          path: src/lambdas
-
-  terraform:
-    name: Terraform
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16.x"
-      - name: Install Dependencies
+      - name: Set Terraform Workspace
+        id: set-workspace
         run: |
-          echo "Installing dependencies..."
-          npm install
-      - name: "Install Lambda Dependencies"
-        run: |
-          echo "Installing Lambda dependencies..."
-          npm run install:lambdas
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v2
+          echo "Setting terraform workspace..."
+          prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref == 'refs/head/prod' }}"
+          dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref == 'refs/head/dev' }}"
+          echo "Setting terraform workspace..."
+          if [ "$prod" = true ]; then
+            echo "::set-output name=environment::prod"
+          elif [ "$dev" == true ]; then
+            echo "::set-output name=environment::dev"
+          else
+            echo "::set-output name=environment::stage"
+          fi
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
         with:
-          name: build-artifacts
-          path: src/lambdas
+          terraform_version: 1.0.0
+      - name: Terraform Format
+        id: format
+        run: |
+          echo "Terraform format..."
+          npm run terraform:main-infra:format
       - name: Terraform Init
+        id: init
         run: |
           echo "Terraform init..."
-          npm run terraform:init
+          npm run terraform:main-infra:init
+        env:
+          TF_WORKSPACE: ${{ steps.set-workspace.outputs.environment }}
       - name: Terraform Plan
+        id: plan
         run: |
           echo "Terraform plan..."
-          npm run terraform:plan
+          npm run terraform:main-infra:plan
+        continue-on-error: true
+        env:
+          TF_WORKSPACE: ${{ steps.set-workspace.outputs.environment }}
