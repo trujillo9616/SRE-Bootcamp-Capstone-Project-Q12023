@@ -29,7 +29,7 @@ export const authService = {
     salt: string
   ): boolean => {
     return (
-      hashedPassword ===
+      hashedPassword !==
       nodeCrypto
         .createHash("sha256")
         .update(password + salt)
