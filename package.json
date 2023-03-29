@@ -9,6 +9,7 @@
     "terraform:main-infra:format": "cd terraform/infra && terraform fmt -recursive -check",
     "terraform:main-infra:init": "cd terraform/infra && terraform init",
     "terraform:main-infra:plan": "cd terraform/infra && terraform plan -no-color",
+    "terraform:main-infra:apply": "cd terraform/infra && terraform apply -auto-approve",
     "install:health": "cd src/lambdas/healthFunction && npm install",
     "install:cidrToMask": "cd src/lambdas/cidrToMaskFunction && npm install",
     "install:maskToMask": "cd src/lambdas/maskToCidrFunction && npm install",

@@ -97,4 +97,8 @@ jobs:
         run: |
           echo "Terraform plan..."
           npm run terraform:main-infra:plan
-        continue-on-error: true
+      - name: Terraform Apply
+        id: apply
+        run: |
+          echo "Terraform apply..."
+          npm run terraform:main-infra:apply
