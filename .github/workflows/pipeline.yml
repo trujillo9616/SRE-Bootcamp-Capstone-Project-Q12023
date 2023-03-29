@@ -69,8 +69,8 @@ jobs:
         id: set-workspace
         run: |
           echo "Setting terraform workspace..."
-          prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref == 'refs/head/prod' }}"
-          dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref == 'refs/head/dev' }}"
+          prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref == 'refs/heads/prod' }}"
+          dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref == 'refs/heads/dev' }}"
           if [ "$prod" = true ]; then
             echo "TF_WORKSPACE=prod" >> $GITHUB_ENV
           elif [ "$dev" == true ]; then
