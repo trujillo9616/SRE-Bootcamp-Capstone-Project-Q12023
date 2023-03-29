@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts",
-    "terraform:main-infra:format": "cd terrafor/infra && terraform fmt -recursive -check",
+    "terraform:main-infra:format": "cd terraform/infra && terraform fmt -recursive -check",
     "terraform:main-infra:init": "cd terraform/infra && terraform init",
     "terraform:main-infra:plan": "cd terraform/infra && terraform plan -no-color",
     "install:health": "cd src/lambdas/healthFunction && npm install",
