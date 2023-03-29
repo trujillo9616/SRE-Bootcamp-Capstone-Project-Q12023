@@ -19,6 +19,15 @@ resource "aws_s3_object" "lambda_auth_code" {
   etag = filemd5("../../src/lambdas/authFunction/dist/app.zip")
 }
 
+resource "aws_lambda_permission" "api_gateway_invoke" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_authorizer_function.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.main.execution_arn}/*/*"
+}
+
 module "lambda_root" {
   source = "../modules/lambdaFunction"
 

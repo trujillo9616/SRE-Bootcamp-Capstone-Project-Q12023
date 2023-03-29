@@ -3,6 +3,23 @@ resource "aws_apigatewayv2_api" "main" {
   protocol_type = "HTTP"
 }
 
+resource "aws_apigatewayv2_deployment" "deployment" {
+  api_id      = aws_apigatewayv2_api.main.id
+  description = "Deployment for ${terraform.workspace} API Gateway"
+
+  triggers = {
+    redeployment = sha1(join(",", tolist([
+      jsonencode(module.lambda_root.lambda_arn),
+      jsonencode(module.lambda_health.lambda_arn),
+      jsonencode(module.lambda_login.lambda_arn),
+      jsonencode(module.lambda_register.lambda_arn),
+      jsonencode(module.lambda_cidr_to_mask.lambda_arn),
+      jsonencode(module.lambda_mask_to_cidr.lambda_arn),
+      jsonencode(aws_lambda_function.lambda_authorizer_function.arn)
+    ])))
+  }
+}
+
 resource "aws_apigatewayv2_authorizer" "authorizer" {
   api_id           = aws_apigatewayv2_api.main.id
   authorizer_type  = "REQUEST"
