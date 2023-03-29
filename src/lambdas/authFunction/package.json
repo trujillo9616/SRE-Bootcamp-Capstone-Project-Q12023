@@ -29,6 +29,8 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "esbuild": "^0.17.14"
+    "aws-sdk": "^2.1346.0",
+    "esbuild": "^0.17.14",
+    "jsonwebtoken": "^9.0.0"
   }
 }
