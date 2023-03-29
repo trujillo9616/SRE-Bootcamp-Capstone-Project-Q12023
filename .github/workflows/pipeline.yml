@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - prod
+      - dev
+      - stage
+  pull_request:
+    branches:
+      - prod
+      - dev
+      - stage
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm install
+      - name: Run Tests
+        run: |
+          echo "Running tests..."
+          npm run test
