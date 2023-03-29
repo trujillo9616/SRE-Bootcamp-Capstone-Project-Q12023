@@ -6,15 +6,11 @@ on:
       - prod
       - dev
       - stage
-    paths:
-      - terraform/**
   pull_request:
     branches:
       - prod
       - dev
       - stage
-    paths:
-      - terraform/**
 
   jobs:
     test:
