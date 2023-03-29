@@ -66,11 +66,11 @@ jobs:
           prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref == 'refs/head/prod' }}"
           dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref == 'refs/head/dev' }}"
           if [ "$prod" = true ]; then
-            echo "{environment=prod}" >> $TF_WORKSPACE
+            echo "TF_WORKSPACE=prod" >> $GITHUB_ENV
           elif [ "$dev" == true ]; then
-            echo "{environment=dev}" >> $TF_WORKSPACE
+            echo "TF_WORKSPACE=dev" >> $GITHUB_ENV
           else
-            echo "{environment=stage}" >> $TF_WORKSPACE
+            echo "TF_WORKSPACE=stage" >> $GITHUB_ENV
           fi
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
