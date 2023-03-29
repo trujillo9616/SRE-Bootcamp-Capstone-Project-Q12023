@@ -26,7 +26,11 @@ jobs:
       - name: Install Dependencies
         run: |
           echo "Installing dependencies..."
-          npm run install:all
+          npm run install
+      - name: "Install Lambda Dependencies"
+        run: |
+          echo "Installing Lambda dependencies..."
+          npm run install:lambdas
       - name: Run Tests
         run: |
           echo "Running tests..."

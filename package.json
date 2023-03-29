@@ -13,7 +13,7 @@
     "install:auth": "cd src/lambdas/authFunction && npm install",
     "install:register": "cd src/lambdas/registerFunction && npm install",
     "install:root": "cd src/lambdas/rootFunction && npm install",
-    "install:all": "npm run install:health && npm run install:cidrToMask && npm run install:maskToMask && npm run install:auth && npm run install:login && npm run install:register && npm run install:root",
+    "install:lambdas": "npm run install:health && npm run install:cidrToMask && npm run install:maskToMask && npm run install:auth && npm run install:login && npm run install:register && npm run install:root",
     "build:health": "cd src/lambdas/healthFunction && npm run build",
     "build:cidrToMask": "cd src/lambdas/cidrToMaskFunction && npm run build",
     "build:maskToMask": "cd src/lambdas/maskToCidrFunction && npm run build",
