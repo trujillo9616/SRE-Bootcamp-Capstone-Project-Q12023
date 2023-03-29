@@ -56,3 +56,6 @@ provision/.*/*
 /**/*/dist
 
 provision/terraform/destroy-candidate.sh
+
+terraform.tfstate
+terraform.tfstate.backup
