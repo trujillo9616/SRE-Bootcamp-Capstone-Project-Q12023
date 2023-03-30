@@ -9,7 +9,7 @@ resource "aws_apigatewayv2_deployment" "deployment" {
 
   triggers = {
     redeployment = sha1(join(",", tolist([
-      jsonencode(module.lambda_health.etag),
+      jsonencode(module.lambda_health.lambda_etag),
       jsonencode(module.lambda_health.lambda_qualified_arn),
       jsonencode(module.lambda_health.lambda_invoke_arn),
       jsonencode(module.lambda_root.lambda_arn),
