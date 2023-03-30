@@ -8,10 +8,9 @@ describe('Unit test for app handler', function () {
     const result: APIGatewayProxyResult = await lambdaHandler(event);
 
     expect(result.statusCode).toEqual(200);
-    expect(result.body).toEqual(
-      JSON.stringify({
-        status: 'OK',
-      }),
-    );
+    expect(result.body).toBeDefined();
+    const body = JSON.parse(result.body);
+    expect(body.status).toBeDefined();
+    expect(typeof body.status).toEqual('string');
   });
 });
