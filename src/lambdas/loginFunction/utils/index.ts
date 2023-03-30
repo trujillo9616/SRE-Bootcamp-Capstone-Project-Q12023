@@ -22,6 +22,7 @@ export const authService = {
     return jwt.sign(payload, secret, {
       expiresIn: "1h",
       audience: "sre-bootcamp",
+      issuer: "aws.cognito.com",
     });
   },
   verifyPassword: (

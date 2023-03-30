@@ -29,6 +29,7 @@ resource "aws_apigatewayv2_authorizer" "authorizer" {
   authorizer_uri  = aws_lambda_function.lambda_authorizer_function.invoke_arn
   jwt_configuration {
     audience = ["sre-bootcamp"]
+    issuer   = "aws.cognito.com"
   }
 
   authorizer_payload_format_version = "2.0"
