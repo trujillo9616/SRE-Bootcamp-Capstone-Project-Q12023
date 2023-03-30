@@ -25,7 +25,10 @@ export const lambdaHandler = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: authService.signToken({ role: user.role }, JWT_SECRET as string),
+        token: await authService.signToken(
+          { role: user.role },
+          JWT_SECRET as string
+        ),
       }),
     };
   } catch (error: any) {

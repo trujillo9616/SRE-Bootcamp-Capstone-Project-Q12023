@@ -24,17 +24,17 @@ resource "aws_apigatewayv2_deployment" "deployment" {
 }
 
 resource "aws_apigatewayv2_authorizer" "authorizer" {
+  name            = "sre-bootcamp-authorizer"
   api_id          = aws_apigatewayv2_api.main.id
   authorizer_type = "JWT"
   authorizer_uri  = aws_lambda_function.lambda_authorizer_function.invoke_arn
+  identity_sources = [
+    "$request.header.Authorization"
+  ]
   jwt_configuration {
     audience = ["https://auth0-jwt-authorizer"]
     issuer   = "https://dev-f7of8fjcd3if65ht.us.auth0.com/"
   }
-
-  authorizer_payload_format_version = "2.0"
-
-  name = "sre-bootcamp-authorizer"
 }
 
 resource "aws_apigatewayv2_stage" "stage" {
