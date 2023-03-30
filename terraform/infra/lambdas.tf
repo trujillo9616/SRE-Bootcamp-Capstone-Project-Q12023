@@ -96,13 +96,14 @@ module "lambda_register" {
 module "lambda_cidr_to_mask" {
   source = "../modules/lambdaFunction"
 
-  function_name     = "cidrToMaskFunction"
-  lambda_runtime    = var.lambda_runtime
-  s3_bucket         = module.s3_bucket_for_lambda.s3_bucket_id
-  api_id            = aws_apigatewayv2_api.main.id
-  api_execution_arn = aws_apigatewayv2_api.main.execution_arn
-  route_key         = "GET /cidr-to-mask"
-  authorizer_id     = aws_apigatewayv2_authorizer.authorizer.id
+  function_name      = "cidrToMaskFunction"
+  lambda_runtime     = var.lambda_runtime
+  s3_bucket          = module.s3_bucket_for_lambda.s3_bucket_id
+  api_id             = aws_apigatewayv2_api.main.id
+  api_execution_arn  = aws_apigatewayv2_api.main.execution_arn
+  route_key          = "GET /cidr-to-mask"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.authorizer.id
 }
 
 module "lambda_mask_to_cidr" {
@@ -114,6 +115,6 @@ module "lambda_mask_to_cidr" {
   api_id             = aws_apigatewayv2_api.main.id
   api_execution_arn  = aws_apigatewayv2_api.main.execution_arn
   route_key          = "GET /mask-to-cidr"
-  authorization_type = "JWT"
+  authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.authorizer.id
 }
