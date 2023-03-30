@@ -1,8 +1,9 @@
 resource "aws_lambda_function" "function" {
   function_name = "${var.function_name}-${terraform.workspace}"
 
-  s3_bucket = var.s3_bucket
-  s3_key    = aws_s3_object.lambda_code.key
+  s3_bucket         = var.s3_bucket
+  s3_key            = aws_s3_object.lambda_code.key
+  s3_object_version = aws_s3_object.lambda_code.version_id
 
   runtime = var.lambda_runtime
   handler = "app.lambdaHandler"
