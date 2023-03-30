@@ -40,7 +40,7 @@ jobs:
     name: Deployment
     environment:
       name: ${{ github.ref_name }}
-      url: ${{ steps.output.outputs.api_invoke_url }}
+      url: ${{ steps.output.outputs.url }}
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -150,4 +150,4 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Terraform output..."
-          echo "$(npm run terraform:main-infra:output)" >> $GITHUB_OUTPUT
+          echo "::set-output name=url::$(npm run terraform:main-infra:output)"
