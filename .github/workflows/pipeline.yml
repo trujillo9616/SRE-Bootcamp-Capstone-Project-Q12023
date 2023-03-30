@@ -150,4 +150,5 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Terraform output..."
-          echo "url=$(npm run terraform:main-infra:output)" >> $GITHUB_OUTPUT
+          cd ./terraform/infra
+          echo "url=$(terraform output -raw api_invoke_url)" >> $GITHUB_OUTPUT
