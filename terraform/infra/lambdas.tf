@@ -1,8 +1,9 @@
 resource "aws_lambda_function" "lambda_authorizer_function" {
   function_name = "authFunction-${terraform.workspace}"
 
-  s3_bucket = module.s3_bucket_for_lambda.s3_bucket_id
-  s3_key    = aws_s3_object.lambda_auth_code.key
+  s3_bucket        = module.s3_bucket_for_lambda.s3_bucket_id
+  s3_key           = aws_s3_object.lambda_auth_code.key
+  source_code_hash = filebase64sha256("../../src/lambdas/authFunction/dist/app.zip")
 
   runtime = var.lambda_runtime
   handler = "app.lambdaHandler"
@@ -113,6 +114,6 @@ module "lambda_mask_to_cidr" {
   api_id             = aws_apigatewayv2_api.main.id
   api_execution_arn  = aws_apigatewayv2_api.main.execution_arn
   route_key          = "GET /mask-to-cidr"
-  authorization_type = "CUSTOM"
+  authorization_type = "JWT"
   authorizer_id      = aws_apigatewayv2_authorizer.authorizer.id
 }
