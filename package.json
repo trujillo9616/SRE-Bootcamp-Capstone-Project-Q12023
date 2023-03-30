@@ -11,7 +11,7 @@
     "terraform:main-infra:plan": "cd terraform/infra && terraform plan -no-color",
     "terraform:main-infra:apply": "cd terraform/infra && terraform apply -auto-approve",
     "terraform:main-infra:validate": "cd terraform/infra && terraform validate -no-color",
-    "terraform:main-infra:output": "cd terraform/infra && terraform output -no-color",
+    "terraform:main-infra:output": "cd terraform/infra && terraform output api_invoke_url -no-color",
     "install:health": "cd src/lambdas/healthFunction && npm install --quiet",
     "install:cidrToMask": "cd src/lambdas/cidrToMaskFunction && npm install --quiet",
     "install:maskToMask": "cd src/lambdas/maskToCidrFunction && npm install --quiet",

@@ -150,4 +150,4 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Terraform output..."
-          echo "::set-output name=url::$(npm run terraform:main-infra:output)"
+          echo "url=$(npm run terraform:main-infra:output)" >> $GITHUB_OUTPUT
