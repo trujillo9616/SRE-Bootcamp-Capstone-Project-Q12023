@@ -21,6 +21,7 @@ export const authService = {
   signToken: (payload: object, secret: string) => {
     return jwt.sign(payload, secret, {
       expiresIn: "1h",
+      audience: "sre-bootcamp",
     });
   },
   verifyPassword: (

@@ -27,6 +27,9 @@ resource "aws_apigatewayv2_authorizer" "authorizer" {
   api_id          = aws_apigatewayv2_api.main.id
   authorizer_type = "JWT"
   authorizer_uri  = aws_lambda_function.lambda_authorizer_function.invoke_arn
+  jwt_configuration {
+    audience = ["sre-bootcamp"]
+  }
 
   authorizer_payload_format_version = "2.0"
 
