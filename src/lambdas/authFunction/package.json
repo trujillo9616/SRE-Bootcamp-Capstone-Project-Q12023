@@ -31,6 +31,6 @@
   "dependencies": {
     "aws-sdk": "^2.1346.0",
     "esbuild": "^0.17.14",
-    "jsonwebtoken": "^9.0.0"
+    "jose": "^4.13.1"
   }
 }

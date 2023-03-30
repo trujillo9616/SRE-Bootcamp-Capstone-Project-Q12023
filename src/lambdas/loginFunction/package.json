@@ -15,7 +15,7 @@
   "dependencies": {
     "aws-sdk": "^2.1343.0",
     "esbuild": "^0.17.13",
-    "jsonwebtoken": "^9.0.0"
+    "jose": "^4.13.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.114",

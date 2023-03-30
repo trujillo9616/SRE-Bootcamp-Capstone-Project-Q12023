@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 import AWS from "aws-sdk";
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 import nodeCrypto from "crypto";
-import jwt from "jsonwebtoken";
+import * as jose from "jose";
 
 const USERS_TABLE = process.env.USERS_TABLE || "";
 
@@ -18,12 +18,16 @@ export function getBodyParams(event: APIGatewayProxyEvent): string[] {
 }
 
 export const authService = {
-  signToken: (payload: object, secret: string) => {
-    return jwt.sign(payload, secret, {
-      expiresIn: "1h",
-      audience: "sre-bootcamp",
-      issuer: "aws.cognito.com",
-    });
+  signToken: async (payload: jose.JWTPayload, secret: string) => {
+    const encodedSecret = Buffer.from(secret, "base64");
+    const jwt = await new jose.SignJWT(payload)
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setIssuer("https://dev-f7of8fjcd3if65ht.us.auth0.com/")
+      .setAudience("https://auth0-jwt-authorizer")
+      .setExpirationTime("1h")
+      .sign(encodedSecret);
+    return jwt;
   },
   verifyPassword: (
     hashedPassword: string,
