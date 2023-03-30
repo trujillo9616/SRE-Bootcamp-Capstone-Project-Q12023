@@ -1,16 +1,25 @@
-import { APIGatewayRequestAuthorizerEvent, AuthResponse } from 'aws-lambda';
-import { getToken, verifyToken, generateAuthResponse } from './utils';
+import { APIGatewayTokenAuthorizerEvent, AuthResponse } from 'aws-lambda';
+import { generatePolicy, verifyToken } from './utils';
 import { SecretsManager } from './utils/secretsManager';
 
-export const lambdaHandler = async (event: APIGatewayRequestAuthorizerEvent): Promise<AuthResponse> => {
+export const lambdaHandler = async (event: APIGatewayTokenAuthorizerEvent): Promise<AuthResponse> => {
   let authResponse: AuthResponse;
   const JWT_SECRET = await SecretsManager.getSecretValue('JWT_SECRET', 'us-east-2');
   try {
-    const token = getToken(event);
+    if (!event.authorizationToken) {
+      throw new Error('Unauthorized');
+    }
+    const token = event.authorizationToken.substring(7);
     verifyToken(token, JWT_SECRET as string);
-    authResponse = generateAuthResponse('*', 'Allow', '*');
+    authResponse = {
+      principalId: '*',
+      policyDocument: generatePolicy('Allow', '*'),
+    };
   } catch (error) {
-    authResponse = generateAuthResponse('*', 'Deny', '*');
+    authResponse = {
+      principalId: '*',
+      policyDocument: generatePolicy('Deny', '*'),
+    };
   }
   return authResponse;
 };
