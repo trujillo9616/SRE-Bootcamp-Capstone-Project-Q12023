@@ -31,6 +31,7 @@ resource "aws_apigatewayv2_authorizer" "authorizer" {
   identity_sources = [
     "$request.header.Authorization"
   ]
+  authorizer_result_ttl_in_seconds = "5"
   jwt_configuration {
     audience = ["https://auth0-jwt-authorizer"]
     issuer   = "https://dev-f7of8fjcd3if65ht.us.auth0.com/"
