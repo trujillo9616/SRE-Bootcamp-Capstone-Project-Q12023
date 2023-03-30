@@ -5,7 +5,7 @@ export const lambdaHandler = async (_event: APIGatewayProxyEvent): Promise<APIGa
     return {
       statusCode: 200,
       body: JSON.stringify({
-        status: 'OK - Root Function',
+        status: 'OK',
       }),
     };
   } catch (error) {
