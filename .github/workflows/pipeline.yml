@@ -150,4 +150,4 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Terraform output..."
-          npm run terraform:main-infra:output
+          echo "$(npm run terraform:main-infra:output)" >> $GITHUB_OUTPUT
