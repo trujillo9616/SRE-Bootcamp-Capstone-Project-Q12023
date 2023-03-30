@@ -40,7 +40,7 @@ jobs:
     name: Deployment
     environment:
       name: ${{ github.ref_name }}
-      url: ${{ steps.output.outputs.url }}
+      url: ${{ steps.output.outputs.stdout }}
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -152,4 +152,4 @@ jobs:
         run: |
           echo "Terraform output..."
           cd ./terraform/infra
-          echo "url=$(terraform output -raw api_invoke_url)" >> $GITHUB_OUTPUT
+          terraform output -raw api_invoke_url
