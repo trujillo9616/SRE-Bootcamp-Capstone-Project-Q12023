@@ -18,23 +18,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: 16
+
       - name: Install Dependencies
-        run: |
-          echo "Installing dependencies..."
-          npm install
+        run: npm install
+
       - name: "Install Lambda Dependencies"
-        run: |
-          echo "Installing Lambda dependencies..."
-          npm run install:lambdas
+        run: npm run install:lambdas
+
       - name: Run Tests
-        run: |
-          echo "Running tests..."
-          npm run test
+        run: npm run test
 
   build:
     name: Deployment
@@ -42,29 +40,29 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: 16
+
       - name: Install Dependencies
-        run: |
-          echo "Installing dependencies..."
-          npm install
+        run: npm install
+
       - name: "Install Lambda Dependencies"
-        run: |
-          echo "Installing Lambda dependencies..."
-          npm run install:lambdas
+        run: npm run install:lambdas
+
       - name: Build
-        run: |
-          echo "Building..."
-          npm run build:all
+        run: npm run build:all
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
       - name: Set Terraform Workspace
         id: set-workspace
         run: |
@@ -78,38 +76,37 @@ jobs:
           else
             echo "TF_WORKSPACE=stage" >> $GITHUB_ENV
           fi
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.3.9
-          terraform_wrapper: false
+
       - name: Terraform Format
         id: fmt
-        run: |
-          echo "Terraform format..."
-          npm run terraform:main-infra:format
+        working-directory: ./terraform/infra
+        run: terraform fmt -check -no-color
+
       - name: Terraform Init
         id: init
-        run: |
-          echo "Terraform init..."
-          npm run terraform:main-infra:init
+        working-directory: ./terraform/infra
+        run: terraform init -no-color
+
       - name: Terraform Validate
         id: validate
-        run: |
-          echo "Terraform validate..."
-          npm run terraform:main-infra:validate
+        working-directory: ./terraform/infra
+        run: terraform validate -no-color
+
       - name: Terraform Plan
         id: plan
+        working-directory: ./terraform/infra
         if: github.event_name == 'pull_request'
         continue-on-error: true
-        run: |
-          echo "Terraform plan..."
-          npm run terraform:main-infra:plan
+        run: terraform plan -input=false
+
       - name: Update Pull Request
         uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
-        env:
-          PLAN: "${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -121,7 +118,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`terraform\n
-            ${process.env.PLAN}
+            ${{ steps.plan.outputs.stdout }}
             \`\`\`
 
             </details>
@@ -134,12 +131,13 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
       - name: Terraform Apply
         id: apply
+        working-directory: ./terraform/infra
         if: github.event_name == 'push'
-        run: |
-          echo "Terraform apply..."
-          npm run terraform:main-infra:apply
+        run: terraform apply -auto-approve -input=false
