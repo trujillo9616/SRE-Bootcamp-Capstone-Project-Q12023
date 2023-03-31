@@ -102,7 +102,7 @@ jobs:
         working-directory: ./terraform/infra
         if: github.event_name == 'pull_request'
         continue-on-error: true
-        run: terraform plan -input=false
+        run: terraform plan -no-color -input=false
 
       - name: Update Pull Request
         uses: actions/github-script@v6
