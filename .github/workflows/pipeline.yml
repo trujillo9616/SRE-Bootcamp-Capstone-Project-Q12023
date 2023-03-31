@@ -38,9 +38,6 @@ jobs:
 
   build:
     name: Deployment
-    environment:
-      name: ${{ github.ref_name }}
-      url: ${{ steps.output.outputs.api_url }}
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -72,8 +69,8 @@ jobs:
         id: set-workspace
         run: |
           echo "Setting terraform workspace..."
-          prod="${{ github.ref_name == 'prod' }}"
-          dev="${{ github.ref_name == 'dev' }}"
+          prod="${{ github.event.pull_request.base.ref == 'prod' || github.ref_name == 'prod' }}"
+          dev="${{ github.event.pull_request.base.ref == 'dev' || github.ref_name == 'dev' }}"
           if [ "$prod" = true ]; then
             echo "TF_WORKSPACE=prod" >> $GITHUB_ENV
           elif [ "$dev" == true ]; then
@@ -146,10 +143,3 @@ jobs:
         run: |
           echo "Terraform apply..."
           npm run terraform:main-infra:apply
-      - name: Terraform Output
-        id: output
-        if: github.event_name == 'push'
-        working-directory: ./terraform/infra
-        run: |
-          echo "Terraform output..."
-          echo "api_url=$(terraform output -raw api_invoke_url)" >> $GITHUB_OUTPUT
